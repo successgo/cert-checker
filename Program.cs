@@ -7,7 +7,6 @@ namespace CertChecker
     {
         static void Main(string[] args)
         {
-            var url = "https://baidu.com";
             var httpClientHandler = new HttpClientHandler()
             {
                 ServerCertificateCustomValidationCallback = (_, cert, _, _) =>
@@ -19,7 +18,12 @@ namespace CertChecker
             };
 
             var httpClient = new HttpClient(httpClientHandler);
-            httpClient.Send(new HttpRequestMessage(HttpMethod.Head, url));
+
+            foreach (var s in args)
+            {
+                string url = s;
+                httpClient.Send(new HttpRequestMessage(HttpMethod.Head, url));
+            }
         }
     }
 }
