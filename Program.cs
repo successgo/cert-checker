@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace CertChecker
 {
     class Program
     {
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var certs = new List<X509Certificate2>();
 
@@ -22,10 +23,17 @@ namespace CertChecker
 
             var httpClient = new HttpClient(httpClientHandler);
 
-            foreach (var s in args)
+            var tasks = new List<Task>();
+            foreach (var url in args)
             {
-                string url = s;
-                httpClient.Send(new HttpRequestMessage(HttpMethod.Head, url));
+                var task = Task.Run(() => httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, url)));
+                tasks.Add(task);
+            }
+
+            // Wait all async tasks
+            foreach (var task in tasks)
+            {
+                await task;
             }
 
             var comparison = new Comparison<X509Certificate2>((a, b) =>
