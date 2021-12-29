@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace CertChecker
     {
         public static async Task Main(string[] args)
         {
+            Console.WriteLine("Wait a moment...");
+            
             var certs = new List<X509Certificate2>();
 
             var httpClientHandler = new HttpClientHandler()
@@ -36,6 +39,10 @@ namespace CertChecker
                 await task;
             }
 
+            // Distinct
+            var certs2 = certs.Distinct().ToList();
+
+            // Sort by NotAfter
             var comparison = new Comparison<X509Certificate2>((a, b) =>
             {
                 if (a.NotAfter > b.NotAfter)
@@ -50,14 +57,14 @@ namespace CertChecker
 
                 return 0;
             });
-            certs.Sort(comparison);
+            certs2.Sort(comparison);
 
-            foreach (var cert in certs)
+            foreach (var cert in certs2)
             {
-                Console.Write(cert.NotAfter);
-                Console.Write(", ");
-                Console.WriteLine(cert.Subject);
+                Console.WriteLine("{0:MMM dd yyyy} {1}", cert.NotAfter, cert.Subject);
             }
+            
+            Console.WriteLine("Done!");
         }
     }
 }
