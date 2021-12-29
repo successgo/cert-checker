@@ -1,0 +1,14 @@
+# EditorConfig https://editorconfig.org/
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+[*.{cs,json}]
+charset = utf-8
+
+[*.cs]
+indent_style = space
+indent_size = 4
