@@ -9,5 +9,5 @@ $ dotnet build
 ## Run
 
 ```shell
-$ bin/Debug/net5.0/CertChecker https://a.com https://b.com
+$ bin/Debug/net6.0/CertChecker https://a.com https://b.com
 ```
