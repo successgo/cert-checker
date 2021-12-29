@@ -61,7 +61,7 @@ namespace CertChecker
 
             foreach (var cert in certs2)
             {
-                Console.WriteLine("{0:MMM dd yyyy} {1}", cert.NotAfter, cert.Subject);
+                Console.WriteLine("{0:MM/dd/yyyy} {1}", cert.NotAfter, cert.Subject);
             }
             
             Console.WriteLine("Done!");
